@@ -1,5 +1,5 @@
 # **ASP.NET Identity Management**
-Covering topics like identity management, authentication, authorization, statefull & stateless session, opaque tokens, jwt, token based security, bearer tokens, oauth2.0, oidc
+## Topics:
 * ASP.NET MVC 5
   * [Overview](#aspnet-mvc-5-overview)
   * [Identity management](#aspnet-mvc-5-identity-management)
@@ -183,3 +183,9 @@ UserManager can create, search and perform other user related operations.
 SignInManager can sign in user, in session or if *remember me* checkbox is checked, in persistent way.
 
 IAuthenticationManager can log out users.
+
+**Database:**
+
+Test database is in App_Data folder, *.mdf file. Connection string is in Web.config, and it is used by ApplicationDbContext.
+
+Database consists of next tables: Users, Roles, UserClaims, UserLogins, UserRoles.
