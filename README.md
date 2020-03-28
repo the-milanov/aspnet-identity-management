@@ -1,14 +1,12 @@
 # **ASP.NET Identity Management**
 Covering topics like identity management, authentication, authorization, statefull & stateless session, opaque tokens, jwt, token based security, bearer tokens, oauth2.0, oidc
-# Content
 * ASP.NET MVC 5
-	* Overview
+  * Overview
   * Identity management
 * ASP.NET Web API
   * Overview
   * Identity management
-## ASP.NET MVC5 Overview
----
+# ASP.NET MVC5 Overview
 Model, View, Controller
 
 Namespaces: System.Web.\*, System.Web.MVC, System.Web.MVC.\*
@@ -19,72 +17,137 @@ App_Start configrurations such as: Bundle, Filter, Routing
 
 **Controller:**
 
-	Controller/ControllerBase -> ActionResult
+Controller/ControllerBase -> ActionResult
 
-	Properties:  ValidateRequest, ViewBag, User, Session, Server, Request, Response, HttpContext, ControllerContext
+Properties:  ValidateRequest, ViewBag, User, Session, Server, Request, Response, HttpContext, ControllerContext
 
-	Methods: Validate, ActionResults
+Methods: Validate, ActionResults
 
-	Controller to View passing data:
-		* ViewBag, ViewData, TempData
-		* Model instance created in ActionResult, passed as View() parameter, in view @model app.Models.Person specified, in rest of the page we use Model.propertiest/methods
-
+Controller to View passing data:
+	* ViewBag, ViewData, TempData
+	* Model instance created in ActionResult, passed as View() parameter, in view @model app.Models.Person specified, in rest of the page we use Model.propertiest/methods
 
 **View:**
 
-	*.cshtml, razor syntax, @ & @{ ... }
+*.cshtml, razor syntax, @ & @{ ... }
 
-	@helper, @model, @section name{ ... }
-	
-	Properties: Html, Ajax, ViewBag, ViewContext, Session, User, Context, Request, Response, Server, Cache, Layout
-	
-	Methods: RenderBody(), RenderSection(), RenderPage(), @Styles.Render("bunde url"), @Scripts.Render("bunde url")
+@helper, @model, @section name{ ... }
 
-	htmlAttributes in @Html/Ajax helpers is anonymous object, like: new { id = "user" }
+Properties: Html, Ajax, ViewBag, ViewContext, Session, User, Context, Request, Response, Server, Cache, Layout
 
-Controller & Action attributes: AllowAnonymous, Authorize, HttpGet/Delete/Head/Options/Patch/Post/Put, NonAction, ValidateAntiForgeryToken, Route
+Methods: RenderBody(), RenderSection(), RenderPage(), @Styles.Render("bunde url"), @Scripts.Render("bunde url")
+
+htmlAttributes in @Html/Ajax helpers is anonymous object, like: new { id = "user" }
+
+**Controller & Action attributes**: AllowAnonymous, Authorize, HttpGet/Delete/Head/Options/Patch/Post/Put, NonAction, ValidateAntiForgeryToken, Route
 
 **Actions:**
 
-	[HttpGet/Post/Put/Delete] attributes to specify method
+[HttpGet/Post/Put/Delete] attributes to specify method
 
-	Results: redirect, partial, json, javascript, file, content, view, empty, httpstatuscode
+Results: redirect, partial, json, javascript, file, content, view, empty, httpstatuscode
 
-	Actions can return types other than ActionResult, like string.
+Actions can return types other than ActionResult, like string.
 
-	Action parameters passed as:
-		1. URL query string parameters
-		2. Body: form-data, x-www-form-urlencoded, raw
-	Action method parameter can be custom type, request parameters should match properties
+Action parameters passed as:
+* URL query string parameters
+* Body: form-data, x-www-form-urlencoded, raw
+Action method parameter can be custom type, request parameters should match properties
 
 **Helpers:**
 
 Html:
 
-	Methods: Action, ActionLink, RouteLink, BeginForm, EndForm, 		AntiForgeryToken, Display, Label, Input related methods, Validation related methods
+Methods: Action, ActionLink, RouteLink, BeginForm, EndForm, 		AntiForgeryToken, Display, Label, Input related methods, Validation related methods
 
-	Sample form:
-	@using (Html.BeginForm("action","controller", FormMethod.Post))
-	{
-		@Html.TextBox("tb1")
-		<button type="submit"/>
-	}
+Sample form:
+```
+@using (Html.BeginForm("action","controller", FormMethod.Post))
+{
+	@Html.TextBox("tb1")
+	<button type="submit"/>
+}
+```
 
 Ajax:
 
-	Methods: ActionLink, RouteLink, BeginForm
+Methods: ActionLink, RouteLink, BeginForm
 
-	BeginForm in Ajax is similar to Html variation, with addition of AjaxOptions object parameter.
+BeginForm in Ajax is similar to Html variation, with addition of AjaxOptions object parameter.
 
-	AjaxOptions provides additional options such as, element to update & callback functions.
+AjaxOptions provides additional options such as, element to update & callback functions.
 	
 
 Session:
 
-	Controller & View property, useful for session management.
+Controller & View property, useful for session management.
 
-	Browser gets ASP.NET_SessionId session cookie.
+Browser gets ASP.NET_SessionId session cookie.
 
-	Can be accessed as indexed type, storing useful session information in value.
+Can be accessed as indexed type, storing useful session information in value.
 
-	Properties and methods are focused on session & it's collection of key/value pairs.
+Properties and methods are focused on session & it's collection of key/value pairs.
+
+**Forms:**
+
+Forms can be written in plain html:
+```	
+<form method="post" action="/Home/NameAge">
+	<input type="text" name="name" />
+	<input type="number" name="age" />
+	<input type="submit"/>
+</form>
+```
+With action method taking it looking like:
+```
+[HttpPost]
+public ActionResult NameAge(string name, int age)
+{
+	ViewBag.Name = name;
+	ViewBag.Age = age;
+	return View();
+}
+```
+Custom types(Book, Person, ...) can be used as action parameters
+In that case, input name attributes should match name of type properties.
+
+In case there are multiply action parameters, input name attribute should match format: parameter.property (person1.name)
+
+Specify what input element values to be binded to parameter:
+public ActionResult Index([Bind(Include="Id, Name")]Person){ ... }
+
+@Html.Display/Label/EditorFor(m => m.Age) to do data binding.
+
+Data annotation attributes for model conditions.
+
+Server side validation:
+View:
+@Html.LabelFor(m => m.FirstName)
+@Html.EditorFor(m => m.FirstName)
+@Html.ValidationMessageFor(m => m.FirstName)
+Controller:
+public ActionResult Index() => View();
+[HttpPost]
+public ActionResult Index(Person guy)
+{
+	if (ModelState.IsValid)
+	{
+		return Redirect("OkView");
+	}
+	return View(guy);
+}
+
+**File Download:**
+
+* Download from Content folder, link with href="~/Content/img.jpeg"
+* FileResult return type of action
+
+**File Upload:**
+
+HttpPostedFileBase & it's derived types are used as action method parameters when we upload files using forms.
+
+View Html.BeginForm method takes additional parameter: new { enctype = "multipart/form-data" }
+
+In action we call file.SaveAs(@"path") to save file, 
+
+*Server* property can be used to map local to global paths.
