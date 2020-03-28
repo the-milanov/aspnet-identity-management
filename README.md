@@ -169,3 +169,17 @@ Controllers have AccountController, for log in/sign up operations.
 Models has AccountViewModels & IdentityModels.
 
 Commonly used base types: IdentityUser, IdentityDBContext, UserManager, SignInManager
+
+**Common types:**
+
+IdentityUser, IdentityDBContext, UserManager, SignInManager, IAuthenticationManager are types commonly used in account management. They can be inherited & expanded upon.
+
+IdentityUser contains user account information, like username, email password hash.
+
+IdentityDBContext is EntityFramework database context used for storing user information.
+
+UserManager can create, search and perform other user related operations.
+
+SignInManager can sign in user, in session or if *remember me* checkbox is checked, in persistent way.
+
+IAuthenticationManager can log out users.
