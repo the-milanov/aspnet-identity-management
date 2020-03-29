@@ -1,12 +1,12 @@
 # **ASP.NET Identity Management**
-Covering topics like identity management, authentication, authorization, statefull & stateless session, opaque tokens, jwt, token based security, bearer tokens, oauth2.0, oidc
+## Topics:
 * ASP.NET MVC 5
-  * Overview
-  * Identity management
+  * [Overview](#aspnet-mvc-5-overview)
+  * [Identity management](#aspnet-mvc-5-identity-management)
 * ASP.NET Web API
   * Overview
   * Identity management
-# ASP.NET MVC5 Overview
+## ASP.NET MVC 5 Overview
 Model, View, Controller
 
 Namespaces: System.Web.\*, System.Web.MVC, System.Web.MVC.\*
@@ -15,7 +15,7 @@ URL: base/controller/action/parameters
 
 App_Start configrurations such as: Bundle, Filter, Routing
 
-**Controller:**
+**Controllers:**
 
 Controller/ControllerBase -> ActionResult
 
@@ -27,7 +27,7 @@ Controller to View passing data:
 	* ViewBag, ViewData, TempData
 	* Model instance created in ActionResult, passed as View() parameter, in view @model app.Models.Person specified, in rest of the page we use Model.propertiest/methods
 
-**View:**
+**Views:**
 
 *.cshtml, razor syntax, @ & @{ ... }
 
@@ -151,3 +151,65 @@ View Html.BeginForm method takes additional parameter: new { enctype = "multipar
 In action we call file.SaveAs(@"path") to save file, 
 
 *Server* property can be used to map local to global paths.
+
+## ASP.NET MVC 5 Identity Management
+
+**Basic structure:**
+
+App_Start has IdentityConfig.cs & Startup.Auth.cs files
+
+New common namespaces: Microsoft.AspNet.Identity, Microsoft.AspNet.Identity*, Microsoft.Owin, Microsoft.Owin.Security, Microsoft.Owin.Security*, System.Security.Claims
+
+<u>User</u> property in controller & view can be used to get user data. Main members are Identity & IsInRole(string name).
+
+Request.IsAuthenticated in view to check if user is authenticated.
+
+Controllers have AccountController, for log in/sign up operations.
+
+Models has AccountViewModels & IdentityModels.
+
+Commonly used base types: IdentityUser, IdentityDBContext, UserManager, SignInManager
+
+**Common types:**
+
+IdentityUser, IdentityDBContext, UserManager, SignInManager, IAuthenticationManager are types commonly used in account management. They can be inherited & expanded upon.
+
+IdentityUser contains user account information, like username, email password hash.
+
+IdentityDBContext is EntityFramework database context used for storing user information.
+
+UserManager can create, search and perform other user related operations.
+
+SignInManager can sign in user, in session or if *remember me* checkbox is checked, in persistent way.
+
+IAuthenticationManager can log out users.
+
+**Database:**
+
+Test database is in App_Data folder, *.mdf file. Connection string is in Web.config, and it is used by ApplicationDbContext.
+
+Database consists of next tables: Users, Roles, UserClaims, UserLogins, UserRoles.
+
+**OAuth2.0 & OpenID Connect:**
+
+After obtaining client id & secret, they need to be added in App_Start > Startup.Auth.cs
+
+In MVC this login type is called "External" log in.
+
+**Roles & Claims:**
+
+[Authorize] attribute is used to allow only authenticated users in Controllers/Actions.
+
+[AllowAnonymous] overrides that.
+
+IdentityUserClaim & IdentityUserRole are commonly used.
+
+ApplicationUser/IdentityUser has properties Roles & Claims.
+
+UserManager property can be used to manage claims/roles for specific user.
+
+IdentityDbContext/ApplicationDbContext has Roles table.
+
+RoleManager is for roles, what UserManager is for users.
+
+[Authorize(Users = "...", Roles="...")] attribute parameters can be used to further constraint controller/action access.
