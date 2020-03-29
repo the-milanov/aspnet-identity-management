@@ -189,3 +189,9 @@ IAuthenticationManager can log out users.
 Test database is in App_Data folder, *.mdf file. Connection string is in Web.config, and it is used by ApplicationDbContext.
 
 Database consists of next tables: Users, Roles, UserClaims, UserLogins, UserRoles.
+
+**OAuth2.0 & OpenID Connect:**
+
+After obtaining client id & secret, they need to be added in App_Start > Startup.Auth.cs
+
+In MVC this login type is called "External" log in.
