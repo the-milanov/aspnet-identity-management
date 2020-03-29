@@ -195,3 +195,21 @@ Database consists of next tables: Users, Roles, UserClaims, UserLogins, UserRole
 After obtaining client id & secret, they need to be added in App_Start > Startup.Auth.cs
 
 In MVC this login type is called "External" log in.
+
+**Roles & Claims:**
+
+[Authorize] attribute is used to allow only authenticated users in Controllers/Actions.
+
+[AllowAnonymous] overrides that.
+
+IdentityUserClaim & IdentityUserRole are commonly used.
+
+ApplicationUser/IdentityUser has properties Roles & Claims.
+
+UserManager property can be used to manage claims/roles for specific user.
+
+IdentityDbContext/ApplicationDbContext has Roles table.
+
+RoleManager is for roles, what UserManager is for users.
+
+[Authorize(Users = "...", Roles="...")] attribute parameters can be used to further constraint controller/action access.

@@ -19,12 +19,21 @@ namespace MvcApp.Controllers
 
             return View();
         }
-
+        public ActionResult AddUser()
+        {
+            return RedirectToAction("About");
+        }
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
+        [Authorize]
+        public string Private()
+        {
+            return "private url";
+        }
+
     }
 }
