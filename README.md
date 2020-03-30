@@ -4,7 +4,7 @@
   * [Overview](#aspnet-mvc-5-overview)
   * [Identity management](#aspnet-mvc-5-identity-management)
 * ASP.NET Web API
-  * Overview
+  * [Overview](#aspnet-web-api-overview)
   * Identity management
 ## ASP.NET MVC 5 Overview
 Model, View, Controller
@@ -213,3 +213,27 @@ IdentityDbContext/ApplicationDbContext has Roles table.
 RoleManager is for roles, what UserManager is for users.
 
 [Authorize(Users = "...", Roles="...")] attribute parameters can be used to further constraint controller/action access.
+
+## ASP.NET Web API Overview
+
+Built on top of MVC to provide functionality needed for RESTful service development.
+
+App_Start has WebApiConfig.cs that handles api configuration, and api routing, not done by RouteConfig.cs
+
+ApiController is type inherited by application controllers.
+
+BaseUrl/Help provides generated api docs.
+
+Commonly used tools for testing are Postman & Fiddler.
+
+**Actions:**
+
+Action methods names match HTTP method, that is used to access them.
+
+GET/POST/PUT/DELETE api/controller
+
+Action return types can be string, int, IEnumerable\<T> and so on, or types derived from IHttpActionResult, such as Ok(), NotFound(), ...
+
+Route attribute above action method, can specify custom route to access it.
+
+[FromBody] & [FromUri] can be used on action method parameters to specify their origin.
