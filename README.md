@@ -257,3 +257,9 @@ Response is in Body, it contains json, we need access_token value for making req
 Obtaining resources from actions or controllers that have [Authorize] attribute requires access token.
 
 We make GET request towards api/values with Authorization header with value: "Bearer access_token_value"
+
+**External Auth / Oauth2.0 & Oidc:**
+
+1. Register application with provider (google, facebook, microsoft).
+2. Get client id & secret.
+3. In App_Start -> Startup.Auth.cs uncomment external app authentication & add client id & secret.
