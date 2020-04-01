@@ -5,7 +5,7 @@
   * [Identity management](#aspnet-mvc-5-identity-management)
 * ASP.NET Web API
   * [Overview](#aspnet-web-api-overview)
-  * Identity management
+  * [Identity management](#aspnet-web-api-identity-management)
 ## ASP.NET MVC 5 Overview
 Model, View, Controller
 
@@ -237,3 +237,7 @@ Action return types can be string, int, IEnumerable\<T> and so on, or types deri
 Route attribute above action method, can specify custom route to access it.
 
 [FromBody] & [FromUri] can be used on action method parameters to specify their origin.
+
+## ASP.NET Web API Identity Management
+
+Help page (/Help) contains api routes, and their descriptions regarding account management. For example api/Account/Register contains information such as http method and parameters used.
