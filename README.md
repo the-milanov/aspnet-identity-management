@@ -241,3 +241,19 @@ Route attribute above action method, can specify custom route to access it.
 ## ASP.NET Web API Identity Management
 
 Help page (/Help) contains api routes, and their descriptions regarding account management. For example api/Account/Register contains information such as http method and parameters used.
+
+**Register:**
+
+/Help api/Account/Register explains how to create account. In Postman, we can make POST request to that endpoint, with required data in body as x-www-form-urlencoded or raw json. If we get response 200 OK, account is created
+
+**Log in / Get token:**
+
+This is not documented on Help page. We obtain token from /token route. POST request with body x-www-form-urlencoded containing: grant_type: password, username: email, password: password.
+
+Response is in Body, it contains json, we need access_token value for making requests towards protected resources.
+
+**Get protected resource:**
+
+Obtaining resources from actions or controllers that have [Authorize] attribute requires access token.
+
+We make GET request towards api/values with Authorization header with value: "Bearer access_token_value"
